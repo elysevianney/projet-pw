@@ -1,0 +1,59 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Mettre à jour votre profil{% endblock %}
+{% block menuProfil %}
+
+    <li class="nav-item dropdown header-profile">
+        <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+									
+                                    <img  src="{{asset('asset/images/profile/pic1.jpg')}}" width="20" alt=""/>
+        </a>
+        {% if app.user %}
+            <div class="dropdown-menu dropdown-menu-end">
+                {% if is_granted('ROLE_DEV') %}
+                    <a href="{{ path('app_dev_edit', {id: devId})}}" class="dropdown-item ai-icon">
+                {% elseif is_granted('ROLE_COMPANY') %}
+                    <a href="{{ path('app_company_edit', {id: company.id})}}" class="dropdown-item ai-icon">
+                {% endif %}
+                    <span class="ms-2">Mon profile</span>
+                </a>
+                {% if is_granted('ROLE_COMPANY') %}
+                    <a href="{{ path('app_post_new')}}" class="dropdown-item ai-icon">
+                        <span class="ms-2">Créer un offre d'emploie</span>
+                    </a>
+                {% endif %}
+                
+                <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Se deconnecter </span>
+                </a>
+            </div>
+        {% endif %}
+        </li>
+{% endblock menuProfil %}
+{% block body %}
+    
+    
+    <div class="row">
+		<div class="col-xl-9 col-xxl-8">
+			<div class="row">
+				    <div class="col-xl-6 col-xxl-12">
+						<div class="card latest-sales-bx">
+							<div class="card-header border-0 mb-0">
+								<h1>Mettre à jour votre profil</h1>
+						    </div>
+							<div class="m-4">
+                                {{ include('company/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+                                {{ include('company/_delete_form.html.twig') }}
+                            </div>	
+                            <div class="m-4">
+                                <a href="{{ path('app_company_critere_edit', {id: company.companyCritere.id} )}}" >
+                                    <button class="btn btn-primary mb-3">Modifier vos critères</button>
+                                </a>
+                            </div>	
+						</div>	
+					</div>
+			</div>
+    </div>
+    
+{% endblock %}

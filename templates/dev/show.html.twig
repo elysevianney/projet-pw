@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dev{% endblock %}
+
+{% block body %}
+    <h1>Dev</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dev.id }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ dev.lastname }}</td>
+            </tr>
+            <tr>
+                <th>Firstname</th>
+                <td>{{ dev.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ dev.adress }}</td>
+            </tr>
+            <tr>
+                <th>PostalCode</th>
+                <td>{{ dev.postalCode }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ dev.city }}</td>
+            </tr>
+            <tr>
+                <th>Experience</th>
+                <td>{{ dev.experience }}</td>
+            </tr>
+            <tr>
+                <th>MinimumSalay</th>
+                <td>{{ dev.minimumSalay }}</td>
+            </tr>
+            <tr>
+                <th>Biography</th>
+                <td>{{ dev.biography }}</td>
+            </tr>
+            <tr>
+                <th>Avatar</th>
+                <td>{{ dev.avatar }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ dev.telephone }}</td>
+            </tr>
+            <tr>
+                <th>PublicProfile</th>
+                <td>{{ dev.publicProfile ? 'Yes' : 'No' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dev_index') }}">back to list</a>
+
+    <a href="{{ path('app_dev_edit', {'id': dev.id}) }}">edit</a>
+
+    {{ include('dev/_delete_form.html.twig') }}
+{% endblock %}

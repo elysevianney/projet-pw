@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompanyCritere{% endblock %}
+
+{% block body %}
+    <h1>CompanyCritere</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ company_critere.id }}</td>
+            </tr>
+            <tr>
+                <th>MinimumSalary</th>
+                <td>{{ company_critere.minimumSalary }}</td>
+            </tr>
+            <tr>
+                <th>MaximumSalary</th>
+                <td>{{ company_critere.maximumSalary }}</td>
+            </tr>
+            <tr>
+                <th>Experience</th>
+                <td>{{ company_critere.experience }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ company_critere.city }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_company_critere_index') }}">back to list</a>
+
+    <a href="{{ path('app_company_critere_edit', {'id': company_critere.id}) }}">edit</a>
+
+    {{ include('company_critere/_delete_form.html.twig') }}
+{% endblock %}

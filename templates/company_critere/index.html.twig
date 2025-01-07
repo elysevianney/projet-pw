@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}CompanyCritere index{% endblock %}
+
+{% block body %}
+    <h1>CompanyCritere index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>MinimumSalary</th>
+                <th>MaximumSalary</th>
+                <th>Experience</th>
+                <th>City</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for company_critere in company_criteres %}
+            <tr>
+                <td>{{ company_critere.id }}</td>
+                <td>{{ company_critere.minimumSalary }}</td>
+                <td>{{ company_critere.maximumSalary }}</td>
+                <td>{{ company_critere.experience }}</td>
+                <td>{{ company_critere.city }}</td>
+                <td>
+                    <a href="{{ path('app_company_critere_show', {'id': company_critere.id}) }}">show</a>
+                    <a href="{{ path('app_company_critere_edit', {'id': company_critere.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_company_critere_new') }}">Create new</a>
+{% endblock %}

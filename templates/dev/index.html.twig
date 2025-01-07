@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dev index{% endblock %}
+
+{% block body %}
+    <h1>Dev index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Lastname</th>
+                <th>Firstname</th>
+                <th>Adress</th>
+                <th>PostalCode</th>
+                <th>City</th>
+                <th>Experience</th>
+                <th>MinimumSalay</th>
+                <th>Biography</th>
+                <th>Avatar</th>
+                <th>Telephone</th>
+                <th>PublicProfile</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dev in devs %}
+            <tr>
+                <td>{{ dev.id }}</td>
+                <td>{{ dev.lastname }}</td>
+                <td>{{ dev.firstname }}</td>
+                <td>{{ dev.adress }}</td>
+                <td>{{ dev.postalCode }}</td>
+                <td>{{ dev.city }}</td>
+                <td>{{ dev.experience }}</td>
+                <td>{{ dev.minimumSalay }}</td>
+                <td>{{ dev.biography }}</td>
+                <td>{{ dev.avatar }}</td>
+                <td>{{ dev.telephone }}</td>
+                <td>{{ dev.publicProfile ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_dev_show', {'id': dev.id}) }}">show</a>
+                    <a href="{{ path('app_dev_edit', {'id': dev.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dev_new') }}">Create new</a>
+{% endblock %}

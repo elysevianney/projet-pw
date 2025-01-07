@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+
+
+<!-- Mirrored from ventic.dexignzone.com/xhtml/page-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 May 2021 03:55:05 GMT -->
+<head>
+    <meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Ventic : Ticketing Admin Template" />
+	<meta property="og:title" content="Ventic : Ticketing Admin Template" />
+	<meta property="og:description" content="Ventic : Ticketing Admin Template" />
+	<meta property="og:image" content=""/>
+	<meta name="format-detection" content="telephone=no">
+	
+	<!-- PAGE TITLE HERE -->
+	<title>Inscription</title>
+	
+	<!-- FAVICONS ICON -->
+	<link rel="shortcut icon" type="image/png" href="{{ asset('asset/images/favicon.png')}}" />
+    <link href="{{ asset('asset/css/style.css')}}" rel="stylesheet">
+
+</head>
+
+<body class="vh-100">
+    <div class="authincation h-100">
+        <div class="container h-100">
+            <div class="row justify-content-center h-100 align-items-center">
+                <div class="col-md-6">
+                    <div class="authincation-content">
+                        <div class="row no-gutters">
+                            <div class="col-xl-12">
+                                <div class="auth-form">
+									<h3 class="text-center mb-3 text-primary">
+										Inscription
+									</h3>
+                                    <div id="dev" class="tabcontent">
+                                    {{ form_errors(registrationForm) }}
+                                    {{ form_start(registrationForm) }}
+                                        
+                                        {{ form_row(registrationForm.email) }}
+                                
+                                        {{ form_row(registrationForm.plainPassword)}}
+                                        {{ form_row(registrationForm.statut)}}
+                                        {{ form_row(registrationForm.agreeTerms) }}
+
+                                        <button type="submit" class="btn btn-primary">S'inscrire</button>
+                                    {{ form_end(registrationForm) }}
+                                    </div>
+                
+                                    
+                                    <div class="new-account mt-3">
+                                        <p>Avez vous  déjà un compte? <a class="text-primary" href="{{path('app_login')}}">Sign in</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--**********************************
+	Scripts
+***********************************-->
+<!-- Required vendors -->
+
+<script src="{{ asset('asset/vendor/global/global.min.js')}}"></script>
+<script src="{{ asset('asset/js/custom.min.js')}}"></script>
+<script src="{{ asset('asset/js/deznav-init.js')}}"></script>
+<script src="{{ asset('asset/js/styleSwitcher.js')}}"></script>
+</body>
+
+<!-- Mirrored from ventic.dexignzone.com/xhtml/page-register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 May 2021 03:55:05 GMT -->
+</html>
+
+    <h1>Register</h1>
+
+
+
+
+    
+     <!-- Tab links -->
+
+
+<script type="text/javascript"> 
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+
