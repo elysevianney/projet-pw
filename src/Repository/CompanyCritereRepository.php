@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\CompanyCritere;
+use App\Entity\Company;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

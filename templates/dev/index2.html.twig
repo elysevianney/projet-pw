@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dev  suggérés{% endblock %}
+
+{% block body %} 
+                <div class="row">
+					<div class="col-xl-9 col-xxl-8">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Voici les dévoloppeurs correspondants à vos critères</h4>
+										
+									</div>
+                                    {% for dev in devs %}
+                                    <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                        <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+                                            <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                <div class="media-image me-2">
+                                                    <img src="{{ asset('asset/images/logo.png')}}" alt="">
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="fs-16 mb-0">{{ dev.lastname }} {{ dev.firstname }}</h6>
+                                                    <div class="d-flex">
+                                                        <span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>{{ dev.city }}</span>
+                                                        <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+									{% else %}
+                                        <h6 class="alert alert-danger">Pas de développeurs touvés</h6>
+                                    {% endfor %}
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+					
+				</div>
+
+ {% endblock %}

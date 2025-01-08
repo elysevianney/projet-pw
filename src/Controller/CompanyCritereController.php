@@ -3,10 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\Company;
 use App\Entity\CompanyCritere;
 use App\Form\CompanyCritereType;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\CompanyCritereRepository;
+use App\Repository\DevRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,6 +22,40 @@ final class CompanyCritereController extends AbstractController
     {
         return $this->render('company_critere/index.html.twig', [
             'company_criteres' => $companyCritereRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/index2',name: 'app_company_critere_index', methods: ['GET'])]
+    public function index2(CompanyCritereRepository $companyCritereRepository, DevRepository $devRepository): Response
+    {
+
+
+        
+        $user = $this->getUser();
+
+        if (!$user instanceof User) {
+            throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+        }
+
+        $companyID = $user->getCompany();
+
+        $critere = $companyCritereRepository->findOneBy(['company'=> $companyID]);
+        if (!$critere instanceof CompanyCritere) {
+            throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+        }
+        $devs = $devRepository->searchDevs(
+            $critere->getMinimumSalary(),
+            $critere->getMaximumSalary(),
+            $critere->getCity(),
+            $critere->getTechnos(),
+            $critere->getExperience()
+            
+        );
+        //dd($critere);
+
+        //dd($devs);
+        return $this->render('dev/index2.html.twig', [
+            'devs' => $devs,
         ]);
     }
 

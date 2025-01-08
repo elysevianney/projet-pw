@@ -47,7 +47,7 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('experience', IntegerType::class, [
-                'label' => 'Nombre d\'année d\'expérience',
+                'label' => 'Nombre d\'année d\'expérience requises',
                 'label_attr' => [
                     'class' => 'mb-1'
                 ],
@@ -65,7 +65,7 @@ class PostType extends AbstractType
                 ]
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Petite biographie',
+                'label' => 'Description du post',
                 'label_attr' => [
                     'class' => 'mb-1'
                 ],

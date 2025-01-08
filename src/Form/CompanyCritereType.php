@@ -18,7 +18,7 @@ class CompanyCritereType extends AbstractType
     {
         $builder
             ->add('minimumSalary', IntegerType::class, [
-                'label' => 'Salaire minimum',
+                'label' => 'Salaire minimum annuel(en euro)',
                 'label_attr' => [
                     'class' => 'mb-1'
                 ],
@@ -27,7 +27,7 @@ class CompanyCritereType extends AbstractType
                 ]
             ])
             ->add('maximumSalary', IntegerType::class, [
-                'label' => 'Salaire maximum ',
+                'label' => 'Salaire maximum annuel (en euro)',
                 'label_attr' => [
                     'class' => 'mb-1'
                 ],

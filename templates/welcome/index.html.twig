@@ -105,9 +105,9 @@
                                         </a>
                                         {% if is_granted('ROLE_COMPANY') %}
                                             <a href="{{ path('app_post_new', {id: companyId})}}" class="dropdown-item ai-icon">
+                                                <span class="ms-2">Créer un offre d'emploie</span>
+                                            </a>
                                         {% endif %}
-                                            <span class="ms-2">Créer un offre d'emploie</span>
-                                        </a>
                                         <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
                                             <span class="ms-2">Se deconnecter </span>
                                         </a>
