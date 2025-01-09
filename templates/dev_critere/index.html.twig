@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DevCritere index{% endblock %}
+
+{% block body %}
+    <h1>DevCritere index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>MinimumSalary</th>
+                <th>MaximumSalary</th>
+                <th>City</th>
+                <th>Experience</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for dev_critere in dev_criteres %}
+            <tr>
+                <td>{{ dev_critere.id }}</td>
+                <td>{{ dev_critere.minimumSalary }}</td>
+                <td>{{ dev_critere.maximumSalary }}</td>
+                <td>{{ dev_critere.city }}</td>
+                <td>{{ dev_critere.experience }}</td>
+                <td>
+                    <a href="{{ path('app_dev_critere_show', {'id': dev_critere.id}) }}">show</a>
+                    <a href="{{ path('app_dev_critere_edit', {'id': dev_critere.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dev_critere_new') }}">Create new</a>
+{% endblock %}

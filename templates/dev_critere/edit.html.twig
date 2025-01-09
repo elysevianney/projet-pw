@@ -1,7 +1,6 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Mettre à jour votre profil{% endblock %}
+{% block title %}Modifier vos critères{% endblock %}
 {% block menuProfil %}
 
     <li class="nav-item dropdown header-profile">
@@ -12,7 +11,7 @@
         {% if app.user %}
             <div class="dropdown-menu dropdown-menu-end">
                 {% if is_granted('ROLE_DEV') %}
-                    <a href="{{ path('app_dev_edit', {id: devId})}}" class="dropdown-item ai-icon">
+                    <a href="{{ path('app_dev_edit', {id: dev.id})}}" class="dropdown-item ai-icon">
                 {% elseif is_granted('ROLE_COMPANY') %}
                     <a href="{{ path('app_company_edit', {id: company.id})}}" class="dropdown-item ai-icon">
                 {% endif %}
@@ -32,28 +31,21 @@
         </li>
 {% endblock menuProfil %}
 {% block body %}
-    
-    
     <div class="row">
 		<div class="col-xl-9 col-xxl-8">
 			<div class="row">
 				    <div class="col-xl-6 col-xxl-12">
 						<div class="card latest-sales-bx">
 							<div class="card-header border-0 mb-0">
-								<h1>Mettre à jour votre profil</h1>
+								<h1>Modifier vos critères de dévoloppeur</h1>
 						    </div>
 							<div class="m-4">
-                                {{ include('company/_form.html.twig', {'button_label': 'Enregistrer'}) }}
-                                {{ include('company/_delete_form.html.twig') }}
-                            </div>	
-                            <div class="ml-4">
-                                <a href="{{ path('app_company_critere_edit', {id: company.companyCritere.id} )}}" >
-                                    <button class="btn btn-primary mb-3">Modifier vos critères</button>
-                                </a>
-                            </div>	
+                                {{ include('dev_critere/_form.html.twig', {'button_label': 'Enrégistrer'}) }}
+                            
+                            </div>
+                            
 						</div>	
 					</div>
 			</div>
-    </div>
-    
+    </div>         	
 {% endblock %}

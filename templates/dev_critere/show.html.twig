@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DevCritere{% endblock %}
+
+{% block body %}
+    <h1>DevCritere</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ dev_critere.id }}</td>
+            </tr>
+            <tr>
+                <th>MinimumSalary</th>
+                <td>{{ dev_critere.minimumSalary }}</td>
+            </tr>
+            <tr>
+                <th>MaximumSalary</th>
+                <td>{{ dev_critere.maximumSalary }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ dev_critere.city }}</td>
+            </tr>
+            <tr>
+                <th>Experience</th>
+                <td>{{ dev_critere.experience }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_dev_critere_index') }}">back to list</a>
+
+    <a href="{{ path('app_dev_critere_edit', {'id': dev_critere.id}) }}">edit</a>
+
+    {{ include('dev_critere/_delete_form.html.twig') }}
+{% endblock %}

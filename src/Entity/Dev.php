@@ -66,6 +66,11 @@ class Dev
     #[ORM\ManyToMany(targetEntity: Techno::class, inversedBy: 'devs')]
     private Collection $technos;
 
+    #[ORM\OneToOne(mappedBy: 'dev', cascade: ['persist', 'remove'])]
+    private ?DevCritere $devCritere = null;
+
+    
+
     public function __construct()
     {
         $this->technologies = new ArrayCollection();
@@ -274,4 +279,18 @@ class Dev
 
         return $this;
     }
+
+    public function getDevCritere(): ?DevCritere
+    {
+        return $this->devCritere;
+    }
+
+    public function setDevCritere(?DevCritere $devCritere): static
+    {
+        $this->devCritere = $devCritere;
+
+        return $this;
+    }
+
+    
 }

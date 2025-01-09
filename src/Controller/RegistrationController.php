@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Entity\CompanyCritere;
 use App\Entity\Dev;
+use App\Entity\DevCritere;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\UserAuthenticator;
@@ -64,6 +65,12 @@ class RegistrationController extends AbstractController
                 $entityManager->flush();
                 
                 $entityManager->persist($dev);
+                $entityManager->flush();
+
+
+                $devCritère = new DevCritere();
+                $devCritère->setDev($dev);
+                $entityManager->persist($devCritère);
                 $entityManager->flush();
             }
 

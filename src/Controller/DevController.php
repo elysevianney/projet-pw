@@ -60,6 +60,8 @@ final class DevController extends AbstractController
         if (!$user instanceof User) {
             throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
         }
+
+        
         $devID = $user->getDev()->getId();
 
         if ($devID == $dev->getId()) {
@@ -71,7 +73,7 @@ final class DevController extends AbstractController
 
                 return $this->redirectToRoute('app_dev_edit', ['id' =>$devID ], Response::HTTP_SEE_OTHER);
             }
-
+           
             return $this->render('dev/edit.html.twig', [
                 'dev' => $dev,
                 'form' => $form,

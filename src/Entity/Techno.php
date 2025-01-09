@@ -36,11 +36,18 @@ class Techno
     #[ORM\ManyToMany(targetEntity: CompanyCritere::class, mappedBy: 'technos')]
     private Collection $companyCriteres;
 
+    /**
+     * @var Collection<int, DevCritere>
+     */
+    #[ORM\ManyToMany(targetEntity: DevCritere::class, mappedBy: 'technos')]
+    private Collection $devCriteres;
+
     public function __construct()
     {
         $this->devs = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->companyCriteres = new ArrayCollection();
+        $this->devCriteres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -136,6 +143,33 @@ class Techno
     {
         if ($this->companyCriteres->removeElement($companyCritere)) {
             $companyCritere->removeTechno($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DevCritere>
+     */
+    public function getDevCriteres(): Collection
+    {
+        return $this->devCriteres;
+    }
+
+    public function addDevCritere(DevCritere $devCritere): static
+    {
+        if (!$this->devCriteres->contains($devCritere)) {
+            $this->devCriteres->add($devCritere);
+            $devCritere->addTechno($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevCritere(DevCritere $devCritere): static
+    {
+        if ($this->devCriteres->removeElement($devCritere)) {
+            $devCritere->removeTechno($this);
         }
 
         return $this;
