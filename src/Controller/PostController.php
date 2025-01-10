@@ -52,8 +52,20 @@ final class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
+    public function show(Post $post, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+        }
+        // $postID = $user->getPosts()->getID();
+        // if($devID != $dev->getId()) {
+        $count = $post->getCountView();
+        $post->setCountView($count+1);
+        $entityManager->persist($post);
+        $entityManager->flush();
+        // }
+
         return $this->render('post/show.html.twig', [
             'post' => $post,
         ]);

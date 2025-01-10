@@ -46,6 +46,9 @@ class Post
     #[ORM\ManyToOne(inversedBy: 'posts')]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?int $countView = 0;
+
     public function __construct()
     {
         $this->technos = new ArrayCollection();
@@ -172,6 +175,18 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCountView(): ?int
+    {
+        return $this->countView;
+    }
+
+    public function setCountView(?int $countView): static
+    {
+        $this->countView = $countView;
 
         return $this;
     }

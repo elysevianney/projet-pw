@@ -51,13 +51,13 @@ final class DevController extends AbstractController
             throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
         }
         $devID = $user->getDev()->getId();
-        if($devID != $dev->getId()) {
-            $count = $dev->getCountView();
-            $dev->setCountView($count+1);
-            $entityManager->persist($dev);
-            $entityManager->flush();
-        }
-        
+        // if($devID != $dev->getId()) {
+        $count = $dev->getCountView();
+        $dev->setCountView($count+1);
+        $entityManager->persist($dev);
+        $entityManager->flush();
+        // }
+
         return $this->render('dev/show.html.twig', [
             'dev' => $dev,
         ]);
