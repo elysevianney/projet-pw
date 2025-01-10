@@ -42,4 +42,22 @@
     </table>
 
     <a href="{{ path('app_company_new') }}">Create new</a>
+
+#########################################################
+    <hr>
+
+    <h2>Developer with the Most Views</h2>
+    {% if mostViewedDeveloper %}
+        <div>
+            <h3>{{ mostViewedDeveloper.name }}</h3>
+            <!-- <p>Location: {{ mostViewedDeveloper.location }}</p>
+            <p>Biography: {{ mostViewedDeveloper.biography }}</p>
+            <p>Total Views: {{ mostViewedDeveloper.views }}</p> -->
+            <a href="{{ path('app_developer_show', {'id': mostViewedDeveloper.id}) }}">View Profile</a>
+        </div>
+    {% else %}
+        <p>No developer profiles available.</p>
+    {% endif %}
+#########################################################    
+
 {% endblock %}
