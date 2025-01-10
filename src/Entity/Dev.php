@@ -46,6 +46,8 @@ class Dev
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
 
+    #[ORM\Column(nullable: false)]
+    private ?int $countView = 0;
    
 
     #[ORM\OneToOne(inversedBy: 'dev', cascade: ['persist', 'remove'])]
@@ -271,6 +273,18 @@ class Dev
     public function removeTechno(Techno $techno): static
     {
         $this->technos->removeElement($techno);
+
+        return $this;
+    }
+
+    public function getCountView(): ?int
+    {
+        return $this->countView;
+    }
+
+    public function setCountView(?int $countView): static
+    {
+        $this->countView = $countView;
 
         return $this;
     }

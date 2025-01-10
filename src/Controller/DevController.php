@@ -44,8 +44,20 @@ final class DevController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_dev_show', methods: ['GET'])]
-    public function show(Dev $dev): Response
+    public function show(Dev $dev, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+        }
+        $devID = $user->getDev()->getId();
+        if($devID != $dev->getId()) {
+            $count = $dev->getCountView();
+            $dev->setCountView($count+1);
+            $entityManager->persist($dev);
+            $entityManager->flush();
+        }
+        
         return $this->render('dev/show.html.twig', [
             'dev' => $dev,
         ]);
