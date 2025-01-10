@@ -10,7 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 #[Route('/dev')]
 final class DevController extends AbstractController
@@ -53,7 +55,7 @@ final class DevController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'app_dev_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Dev $dev, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Dev $dev, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
 
         $user = $this->getUser();
@@ -65,13 +67,34 @@ final class DevController extends AbstractController
         $devID = $user->getDev()->getId();
 
         if ($devID == $dev->getId()) {
+            
             $form = $this->createForm(DevType::class, $dev);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                //gestion de la photo de profil 
+                $avatarFile = $form->get('avatar')->getData();
+
+                if ($avatarFile) {
+                    $originalFilename = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    $safeFilename = $slugger->slug($originalFilename);
+                    $newFilename = $safeFilename.'-'.uniqid().'.'.$avatarFile->guessExtension();
+
+                    try {
+                        $avatarFile->move(
+                            $this->getParameter('avatars_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // Gérer l'erreur
+                    }
+
+                    $dev->setAvatar($newFilename);
+                }
+
                 $entityManager->flush();
 
-                return $this->redirectToRoute('app_dev_edit', ['id' =>$devID ], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('app_dev_show', ['id' =>$devID ], Response::HTTP_SEE_OTHER);
             }
            
             return $this->render('dev/edit.html.twig', [
@@ -94,5 +117,32 @@ final class DevController extends AbstractController
         }
 
         return $this->redirectToRoute('app_dev_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/dev/save-rating', name: 'app_dev_save_rating', methods: ['POST'])]
+    public function saveRating(Request $request, EntityManagerInterface $entityManager, DevRepository $devRepository): Response
+    {
+        $user = $this->getUser();
+        if (!$user instanceof User) {
+            throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+        }
+        $devId = $request->request->get('devId');
+        $dev = $devRepository->findOneBy(['id' => $devId]); // Exemple d'accès à l'entité De
+        //dd($dev);
+        // Récupère la note depuis la requête
+        $rating = $request->request->get('rating');
+
+        if ($rating !== null) {
+            $dev->setRating((float) (($rating + $dev->getTotalRating()*$dev->getRating())/  ($dev->getTotalRating()+1))); // Met à jour la note
+            $dev->setTotalRating($dev->getTotalRating()+1);
+            $entityManager->persist($dev);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Note enregistrée avec succès !');
+        } else {
+            $this->addFlash('error', 'Aucune note sélectionnée.');
+        }
+
+        return $this->redirectToRoute('app_dev_index'); // Redirection après sauvegarde
     }
 }

@@ -1,0 +1,34 @@
+
+<li class="nav-item dropdown header-profile">
+        <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
+									
+            <img  src="{{ asset('uploads/avatars/' ~ app.user.company.logo) }}" width="20" alt=""/>
+        </a>
+        {% if app.user %}
+            <div class="dropdown-menu dropdown-menu-end">
+                {% if is_granted('ROLE_COMPANY') %}
+                <a href="{{ path('app_company_show', {id: app.user.company.id})}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Mon profile</span>
+                </a>
+                {% endif %}
+                <a href="{{path('app_company_critere_index2')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Matching </span>
+                </a>
+                <a href="{{path('app_post_new')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Créer un offre d'emploi</span>
+                </a>
+                <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Se deconnecter </span>
+                </a>
+            </div>
+        {% else %}
+            <div class="dropdown-menu dropdown-menu-end">
+                <a href="{{ path('app_register')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">S'inscrire </span>
+                </a>
+                <a href="{{ path('app_login')}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Se connecter </span>
+                </a>
+            </div>
+        {% endif %}
+</li>

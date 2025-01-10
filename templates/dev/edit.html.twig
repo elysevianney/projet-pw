@@ -1,34 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Mettre à jour votre profil{% endblock %}
-{% block menuProfil %}
-
-    <li class="nav-item dropdown header-profile">
-        <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
-									
-                                    <img  src="{{asset('asset/images/profile/pic1.jpg')}}" width="20" alt=""/>
-        </a>
-        {% if app.user %}
-            <div class="dropdown-menu dropdown-menu-end">
-                {% if is_granted('ROLE_DEV') %}
-                    <a href="{{ path('app_dev_edit', {id: dev.id})}}" class="dropdown-item ai-icon">
-                {% elseif is_granted('ROLE_COMPANY') %}
-                    <a href="{{ path('app_company_edit', {id: company.id})}}" class="dropdown-item ai-icon">
-                {% endif %}
-                    <span class="ms-2">Mon profile</span>
-                </a>
-                {% if is_granted('ROLE_COMPANY') %}
-                    <a href="{{ path('app_post_new')}}" class="dropdown-item ai-icon">
-						<span class="ms-2">Créer un offre d'emploie</span>
-                	</a>
-                {% endif %}
-                <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
-                    <span class="ms-2">Se deconnecter </span>
-                </a>
-            </div>
-        {% endif %}
-        </li>
-    {% endblock menuProfil %}
+    {% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig', {'dev' : dev}) }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig', {'company' : company}) }}  
+{% endif %}
+{% endblock menuProfil %}
 {% block body %}
     
     

@@ -4,9 +4,9 @@ namespace App\Form;
 
 use App\Entity\Dev;
 use App\Entity\User;
+use App\Entity\Techno;
 use App\Entity\Technologie;
 use App\Entity\DevTechnology;
-use App\Entity\Techno;
 use Symfony\Component\Form\AbstractType;
 use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -14,6 +14,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -133,6 +134,12 @@ class DevType extends AbstractType
                     'class' => ' form-control mb-3 '
                 ]
             ])
+            ->add('avatar', FileType::class, [
+                'label' => 'Choisir une nouvelle photo de profil (300 x 300 pixels)',
+                'mapped' => false, // Ce champ n'est pas directement lié à l'entité
+                'required' => false,
+                'attr' => ['class' => 'form-control mb-3']
+            ]);
             /*
             ->add('user', EntityType::class, [
                 'class' => User::class,

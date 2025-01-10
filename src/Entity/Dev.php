@@ -41,7 +41,7 @@ class Dev
     private ?string $biography = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $avatar = null;
+    private ?string $avatar = "dev-profil.jpg";
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $telephone = null;
@@ -69,12 +69,23 @@ class Dev
     #[ORM\OneToOne(mappedBy: 'dev', cascade: ['persist', 'remove'])]
     private ?DevCritere $devCritere = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?float $rating = 0.0;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $totalRating = 0;
+
     
 
     public function __construct()
     {
         $this->technologies = new ArrayCollection();
         $this->technos = new ArrayCollection();
+
+        $this->rating = 0.0; // Défaut pour les nouvelles instances
+        $this->totalRating = 0;
+
+        $this->avatar = "dev-profil.jpg";
     }
 
     public function getId(): ?int
@@ -288,6 +299,30 @@ class Dev
     public function setDevCritere(?DevCritere $devCritere): static
     {
         $this->devCritere = $devCritere;
+
+        return $this;
+    }
+
+    public function getRating(): ?float
+    {
+        return $this->rating;
+    }
+
+    public function setRating(?float $rating): static
+    {
+        $this->rating = $rating;
+
+        return $this;
+    }
+
+    public function getTotalRating(): ?int
+    {
+        return $this->totalRating;
+    }
+
+    public function setTotalRating(?int $totalRating): static
+    {
+        $this->totalRating = $totalRating;
 
         return $this;
     }

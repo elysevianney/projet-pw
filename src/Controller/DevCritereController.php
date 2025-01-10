@@ -57,6 +57,7 @@ final class DevCritereController extends AbstractController
 
         //dd($devs);
         return $this->render('post/index2.html.twig', [
+            'dev' => $dev,
             'posts' => $posts,
         ]);
     }

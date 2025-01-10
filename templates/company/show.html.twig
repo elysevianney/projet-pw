@@ -1,46 +1,165 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Company{% endblock %}
+{% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig') }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig') }}  
+{% endif %}
+{% endblock menuProfil %}
 
 {% block body %}
-    <h1>Company</h1>
+    
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ company.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ company.name }}</td>
-            </tr>
-            <tr>
-                <th>Adress</th>
-                <td>{{ company.adress }}</td>
-            </tr>
-            <tr>
-                <th>PostalCode</th>
-                <td>{{ company.postalCode }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ company.city }}</td>
-            </tr>
-            <tr>
-                <th>Logo</th>
-                <td>{{ company.logo }}</td>
-            </tr>
-            <tr>
-                <th>Biography</th>
-                <td>{{ company.biography }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_company_index') }}">back to list</a>
+<div class="row">
+                    <div class="col-lg-12">
+                        <div class="profile card card-body px-3 pt-3 pb-0">
+                            <div class="profile-head">
+                                <div class="photo-content">
+                                    <div class="cover-photo"></div>
+                                </div>
+                                <div class="profile-info">
+									<div class="profile-photo">
+										<img src="{{ asset('uploads/avatars/' ~ company.logo) }}" class="img-fluid rounded-circle" alt="">
+									</div>
+									<div class="profile-details">
+										<div class="profile-name px-3 pt-2">
+											<h4 class="text-primary mb-0">{{ company.name }} </h4>
+											<p>Entreprise | {{ company.city }}</p>
+										</div>
+										<div class="profile-email px-2 pt-2">
+											<h4 class="text-muted mb-0">{{company.user.email}}</h4>
+											<p>Email</p>
+										</div>
+                                        {% if(app.user and is_granted('ROLE_COMPANY') and app.user.company.id == company.id )  %}
+                                            <a href="{{path('app_company_edit', {id: app.user.company.id})}}">
+                                                <button class="btn btn-primary">
+                                                    Modifier profile
+                                                </button>
+                                            </a>                            
+                                        {% endif %}   
+                                        <div>
+                                        </div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4">
+						<div class="row">
+							<div class="col-xl-12">
+								<div class="card">
+									<div class="card-body">
+										<div class="profile-statistics">
+											<div class="text-center">
+												<div class="row">
+													<div class="col">
+														<h3 class="m-b-0">150</h3><span>salariés</span>
+													</div>
+													<div class="col">
+														<h3 class="m-b-0">{{ 0 }}</h3><span>offres disponible</span>
+													</div>
+												</div>
+												<div class="mt-4">
+													<a href="javascript:void(0);" class="btn btn-primary mb-1 me-1">Envoyer un message</a> 
+													
+												</div>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+                    </div>
+                    <div class="col-xl-8">
+                        <div class="card">
+                            <div class="card-body">
+                            <div>
+                                <a href="{{path("app_company_posts", {'id' : company.id})}}" class="btn btn-primary mb-1 me-1">Envoyer un message</a> 
+                            </div>
+                                <div class="profile-tab">
+                                    <div class="custom-tab-1">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item"><a href="#my-posts" data-bs-toggle="tab" class="nav-link active show">Informations</a>
+                                            </li>
+                                            <li class="nav-item"><a href="#about-me" data-bs-toggle="tab" class="nav-link">A propos de l'Entreprise</a>
+                                            </li>
+                                        
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="my-posts" class="tab-pane fade active show">
+                                                
+                                        
+                                                <div class="profile-personal-info">
+                                                   
+                                                    <div class="row mb-2 mt-3">
+                                                        <div class="col-sm-3 col-5">
+                                                            <h5 class="f-w-500">Name <span class="pull-end">:</span>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-sm-9 col-7"><span>{{ company.name }} </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-3 col-5">
+                                                            <h5 class="f-w-500">Email <span class="pull-end">:</span>
+                                                            </h5>
+                                                        </div>
+                                                        <div class="col-sm-9 col-7"><span>{{ company.user.email }}</span>
+                                                        </div>
+                                                    </div>
 
-    <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>
-
-    {{ include('company/_delete_form.html.twig') }}
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-3 col-5">
+                                                            <h5 class="f-w-500">Adresse <span class="pull-end">:</span></h5>
+                                                        </div>
+                                                        <div class="col-sm-9 col-7"><span>{{ company.adress }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-3 col-5">
+                                                            <h5 class="f-w-500">Adresse <span class="pull-end">:</span></h5>
+                                                        </div>
+                                                        <div class="col-sm-9 col-7"><span>{{ company.postalCode }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-3 col-5">
+                                                            <h5 class="f-w-500">Ville <span class="pull-end">:</span></h5>
+                                                        </div>
+                                                        <div class="col-sm-9 col-7"><span>{{ company.city }}</span>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    
+                                                </div>
+                                            </div>
+                                            <div id="about-me" class="tab-pane fade">
+                                                <div class="profile-about-me">
+                                                    <div class="pt-4 border-bottom-1 pb-3">
+                                                        
+                                                        <p>{{ company.biography }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="profile-settings" class="tab-pane fade">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+									<!-- Modal -->
+									<div class="modal fade" id="replyModal">
+										
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 {% endblock %}

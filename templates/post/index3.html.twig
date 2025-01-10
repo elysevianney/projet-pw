@@ -3,9 +3,9 @@
 {% block title %}Dev  suggérés{% endblock %}
 {% block menuProfil %}
 {% if(app.user and is_granted('ROLE_DEV'))  %}
-    {{ include('menu_dev.html.twig', {'dev' : dev}) }}                                                                  
+    {{ include('menu_dev.html.twig') }}                                                                  
 {% elseif (app.user and is_granted('ROLE_COMPANY')) %}
-    {{ include('menu_company.html.twig', {'company' : company}) }}  
+    {{ include('menu_company.html.twig') }}  
 {% endif %}
 {% endblock menuProfil %}
 {% block body %} 
@@ -15,28 +15,28 @@
 							<div class="col-xl-6 col-xxl-12">
 								<div class="card">
 									<div class="card-header border-0 mb-0">
-										<h4 class="fs-20">Voici les dévoloppeurs correspondants à vos critères</h4>
+										<h4 class="fs-20">Voici les fiches de postes disponibles chez {{company.name}}</h4>
 										
 									</div>
-                                    {% for dev in devs %}
-                                    <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                    {% for post in posts %}
+                                    <a href="{{ path('app_post_show', {'id': post.id}) }}">
                                         <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
                                             <div class="media pb-3 border-bottom mb-3 align-items-center">
                                                 <div class="media-image me-2">
                                                     <img src="{{ asset('asset/images/logo.png')}}" alt="">
                                                 </div>
                                                 <div class="media-body">
-                                                    <h6 class="fs-16 mb-0">{{ dev.lastname }} {{ dev.firstname }}</h6>
+                                                    <h6 class="fs-16 mb-0">{{ post.name }}</h6>
                                                     <div class="d-flex">
-                                                        <span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>{{ dev.city }}</span>
-                                                        <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        <span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>{{ post.city }}</span>
+                                                        <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requis</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </a>
 									{% else %}
-                                        <h6 class="alert alert-danger">Pas de développeurs touvés</h6>
+                                        <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
                                     {% endfor %}
 								</div>
 							</div>

@@ -1,7 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Dev  suggérés{% endblock %}
-
+{% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig') }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig') }}  
+{% endif %}
+{% endblock menuProfil %}
 {% block body %} 
                 <div class="row">
 					<div class="col-xl-9 col-xxl-8">
@@ -17,7 +23,7 @@
                                         <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
                                             <div class="media pb-3 border-bottom mb-3 align-items-center">
                                                 <div class="media-image me-2">
-                                                    <img src="{{ asset('asset/images/logo.png')}}" alt="">
+                                                    <img src="{{ asset('uploads/avatars/' ~ company.logo) }}" alt="">
                                                 </div>
                                                 <div class="media-body">
                                                     <h6 class="fs-16 mb-0">{{ post.name }}</h6>
@@ -30,7 +36,7 @@
                                         </div>
                                     </a>
 									{% else %}
-                                        <h6 class="alert alert-danger">Pas d'offres trouvés</h6>
+                                        <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
                                     {% endfor %}
 								</div>
 							</div>

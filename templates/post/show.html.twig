@@ -1,6 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Post{% endblock %}
+{% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig', {'dev' : dev}) }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig', {'company' : company}) }}  
+{% endif %}
+{% endblock menuProfil %}
 
 {% block body %}
     <h1>Post</h1>

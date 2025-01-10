@@ -25,7 +25,7 @@ final class CompanyCritereController extends AbstractController
         ]);
     }
 
-    #[Route('/index2',name: 'app_company_critere_index', methods: ['GET'])]
+    #[Route('/index2',name: 'app_company_critere_index2', methods: ['GET'])]
     public function index2(CompanyCritereRepository $companyCritereRepository, DevRepository $devRepository): Response
     {
 
@@ -83,6 +83,7 @@ final class CompanyCritereController extends AbstractController
 
         return $this->render('company_critere/new.html.twig', [
             'company_critere' => $companyCritere,
+            'company' => $company,
             'form' => $form,
         ]);
     }

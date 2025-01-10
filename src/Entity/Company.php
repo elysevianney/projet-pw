@@ -27,7 +27,7 @@ class Company
     private ?string $city = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $logo = null;
+    private ?string $logo = "entreprise-logo.png";
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biography = null;
@@ -37,6 +37,11 @@ class Company
 
     #[ORM\OneToOne(mappedBy: 'company', cascade: ['persist', 'remove'])]
     private ?CompanyCritere $companyCritere = null;
+
+    public function __construct()
+    {
+        $this->logo = "entreprise-logo.png";
+    }
 
     public function getId(): ?int
     {
