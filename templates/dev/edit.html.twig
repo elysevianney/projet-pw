@@ -15,11 +15,11 @@
                 {% elseif is_granted('ROLE_COMPANY') %}
                     <a href="{{ path('app_company_edit', {id: company.id})}}" class="dropdown-item ai-icon">
                 {% endif %}
-                    <span class="ms-2">Mon profile</span>
+                    <span class="ms-2">Mon profil</span>
                 </a>
                 {% if is_granted('ROLE_COMPANY') %}
                     <a href="{{ path('app_post_new')}}" class="dropdown-item ai-icon">
-						<span class="ms-2">Créer un offre d'emploie</span>
+						<span class="ms-2">Créer une offre d'emploi</span>
                 	</a>
                 {% endif %}
                 <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
