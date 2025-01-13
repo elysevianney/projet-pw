@@ -46,9 +46,31 @@ class Post
     #[ORM\ManyToOne(inversedBy: 'posts')]
     private ?User $user = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $countView = null;
+
+    /**
+     * @var Collection<int, PostView>
+     */
+    #[ORM\OneToMany(targetEntity: PostView::class, mappedBy: 'post')]
+    private Collection $postViews;
+
+    /**
+     * @var Collection<int, Dev>
+     */
+    #[ORM\ManyToMany(targetEntity: Dev::class, mappedBy: 'favoritePosts')]
+    private Collection $devsFav;
+
     public function __construct()
     {
         $this->technos = new ArrayCollection();
+        $this->countView = 0 ;
+        $this->postViews = new ArrayCollection();
+        $this->devsFav = new ArrayCollection(); 
+    }
+    public function incrementUniqueViews(): void
+    {
+        $this->countView++;
     }
 
     public function getId(): ?int
@@ -172,6 +194,75 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getCountView(): ?int
+    {
+        return $this->countView;
+    }
+
+    public function setCountView(?int $countView): static
+    {
+        $this->countView = $countView;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostView>
+     */
+    public function getPostViews(): Collection
+    {
+        return $this->postViews;
+    }
+
+    public function addPostView(PostView $postView): static
+    {
+        if (!$this->postViews->contains($postView)) {
+            $this->postViews->add($postView);
+            $postView->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostView(PostView $postView): static
+    {
+        if ($this->postViews->removeElement($postView)) {
+            // set the owning side to null (unless already changed)
+            if ($postView->getPost() === $this) {
+                $postView->setPost(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dev>
+     */
+    public function getDevsFav(): Collection
+    {
+        return $this->devsFav;
+    }
+
+    public function addDevsFav(Dev $devsFav): static
+    {
+        if (!$this->devsFav->contains($devsFav)) {
+            $this->devsFav->add($devsFav);
+            $devsFav->addFavoritePost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDevsFav(Dev $devsFav): static
+    {
+        if ($this->devsFav->removeElement($devsFav)) {
+            $devsFav->removeFavoritePost($this);
+        }
 
         return $this;
     }

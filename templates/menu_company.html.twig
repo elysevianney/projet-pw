@@ -9,6 +9,9 @@
                 {% if is_granted('ROLE_COMPANY') %}
                 <a href="{{ path('app_company_show', {id: app.user.company.id})}}" class="dropdown-item ai-icon">
                     <span class="ms-2">Mon profile</span>
+                    <a href="{{ path('app_company_favorites', {id: app.user.company.id})}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Mes devs favoris </span>
+                </a>
                 </a>
                 {% endif %}
                 <a href="{{path('app_company_critere_index2')}}" class="dropdown-item ai-icon">

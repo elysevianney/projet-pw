@@ -9360,16 +9360,18 @@ label {
   z-index: 5;
   border-right: 1px solid #F8F8F8; }
   .nav-header .logo-abbr {
-    min-width: 65px; }
+    min-width: 65px; 
+    max-width: 65px;
+  }
     @media only screen and (max-width: 1400px) {
       .nav-header .logo-abbr {
-        max-width: 45px;
-        min-width: 45px; } }
+        max-width: 60px;
+        min-width: 60px; } }
     @media only screen and (max-width: 575px) {
       .nav-header .logo-abbr {
-        min-width: 35px;
-        width: 35px;
-        height: 35px; } }
+        min-width: 60px;
+        width: 60px;
+        height: 60px; } }
   .nav-header .logo-compact {
     display: none; }
   @media only screen and (max-width: 1400px) {
@@ -9402,7 +9404,7 @@ label {
         padding-right: 0;
         justify-content: center; } }
   .nav-header .brand-title {
-    margin-left: 10px;
+    margin-left: 2px;
     max-width: 120px;
     font-size: 38px;
     color: #000; }
@@ -40392,7 +40394,7 @@ span#counter {
   border-radius: 50px; }
 
 .latest-sales-bx .card-body {
-  height: 380px; }
+   }
 .latest-sales-bx:hover .card-footer.style-1 a i {
   -webkit-animation: toTopFromBottom 0.8s forwards;
   -moz-animation: toTopFromBottom 0.8s forwards;

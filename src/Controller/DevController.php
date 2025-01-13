@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Dev;
 use App\Entity\User;
 use App\Form\DevType;
+use App\Entity\ProfileView;
+use App\Form\DevSearchType;
 use App\Repository\DevRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,8 +48,38 @@ final class DevController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_dev_show', methods: ['GET'])]
-    public function show(Dev $dev): Response
+    public function show(Dev $dev, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
+        if ($user) {
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+
+            $profileOwner = $dev->getUser();
+            $viewer = $user;
+            // Vérifier si le viewer a déjà vu ce profil
+            $existingView = $entityManager->getRepository(ProfileView::class)->findOneBy([
+                'profileOwner' => $profileOwner,
+                'viewer' => $viewer,
+            ]);
+
+            if (!$existingView) {
+                // Enregistrer une nouvelle vue
+                $profileView = new ProfileView($profileOwner, $viewer);
+                $entityManager->persist($profileView);
+
+                // Incrémenter le compteur de vues uniques
+                $count = $dev->getCountView();
+                $dev->setCountView($count+1);
+                $entityManager->persist($dev);
+                $entityManager->flush();
+
+                $entityManager->persist($profileOwner);
+            }
+
+            $entityManager->flush();
+        }
         return $this->render('dev/show.html.twig', [
             'dev' => $dev,
         ]);
@@ -143,6 +175,43 @@ final class DevController extends AbstractController
             $this->addFlash('error', 'Aucune note sélectionnée.');
         }
 
-        return $this->redirectToRoute('app_dev_index'); // Redirection après sauvegarde
+        return $this->redirectToRoute('app_dev_show', ['id'=>$devId]); // Redirection après sauvegarde
     }
+
+    #[Route('/dev/{id}/favoris', name: 'app_dev_favoris', methods: ['GET'])]
+    public function favoritePosts(Dev $dev): Response {
+
+        return $this->render('post/index3.html.twig', [
+            'posts' => $dev->getFavoritePosts(),
+        ]);
+    }
+
+
+    #[Route('/dev/{id}/favorite', name: 'dev_toggle_favorite', methods: ['POST'])]
+    public function toggleFavoriteDev(Dev $dev, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if ($user) {
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+        }
+        /** @var Company $company */
+        $company = $user->getCompany(); // Supposons que l'utilisateur connecté est une Company
+
+        if ($company->getFavoriteDevs()->contains($dev)) {
+            // Si le dev est déjà dans les favoris, le retirer
+            $company->removeFavoriteDev($dev);
+        } else {
+            // Ajouter le dev aux favoris
+            $company->addFavoriteDev($dev);
+        }
+
+        $entityManager->persist($company);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_dev_show', ['id' => $dev->getId()]); // Redirige vers la liste des devs ou une autre page
+    }
+
+    
 }

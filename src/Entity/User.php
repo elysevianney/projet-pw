@@ -51,9 +51,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'user')]
     private Collection $posts;
 
+    /**
+     * @var Collection<int, ProfileView>
+     */
+    #[ORM\OneToMany(targetEntity: ProfileView::class, mappedBy: 'profileOwner')]
+    private Collection $profileViews;
+
+    /**
+     * @var Collection<int, ProfileView>
+     */
+    #[ORM\OneToMany(targetEntity: ProfileView::class, mappedBy: 'viewer')]
+    private Collection $profileViews2;
+
+    /**
+     * @var Collection<int, PostView>
+     */
+    #[ORM\OneToMany(targetEntity: PostView::class, mappedBy: 'viewer')]
+    private Collection $postViews;
+
     public function __construct()
     {
         $this->posts = new ArrayCollection();
+        $this->profileViews = new ArrayCollection();
+        $this->profileViews2 = new ArrayCollection();
+        $this->postViews = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -211,6 +232,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($post->getUser() === $this) {
                 $post->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProfileView>
+     */
+    public function getProfileViews(): Collection
+    {
+        return $this->profileViews;
+    }
+
+    public function addProfileView(ProfileView $profileView): static
+    {
+        if (!$this->profileViews->contains($profileView)) {
+            $this->profileViews->add($profileView);
+            $profileView->setProfileOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfileView(ProfileView $profileView): static
+    {
+        if ($this->profileViews->removeElement($profileView)) {
+            // set the owning side to null (unless already changed)
+            if ($profileView->getProfileOwner() === $this) {
+                $profileView->setProfileOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProfileView>
+     */
+    public function getProfileViews2(): Collection
+    {
+        return $this->profileViews2;
+    }
+
+    public function addProfileViews2(ProfileView $profileViews2): static
+    {
+        if (!$this->profileViews2->contains($profileViews2)) {
+            $this->profileViews2->add($profileViews2);
+            $profileViews2->setViewer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProfileViews2(ProfileView $profileViews2): static
+    {
+        if ($this->profileViews2->removeElement($profileViews2)) {
+            // set the owning side to null (unless already changed)
+            if ($profileViews2->getViewer() === $this) {
+                $profileViews2->setViewer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostView>
+     */
+    public function getPostViews(): Collection
+    {
+        return $this->postViews;
+    }
+
+    public function addPostView(PostView $postView): static
+    {
+        if (!$this->postViews->contains($postView)) {
+            $this->postViews->add($postView);
+            $postView->setViewer($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostView(PostView $postView): static
+    {
+        if ($this->postViews->removeElement($postView)) {
+            // set the owning side to null (unless already changed)
+            if ($postView->getViewer() === $this) {
+                $postView->setViewer(null);
             }
         }
 

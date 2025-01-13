@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche d'offres de poste{% endblock %}
+{% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig') }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig') }}  
+{% endif %}
+{% endblock menuProfil %}
+{% block body %}
+    <h1>Rechercher des Postes</h1>
+
+    {{ form_start(form) }}
+    <div style="display: flex; gap: 20px;">
+            <div >
+                {{ form_row(form.name) }}
+            </div>
+            <div >
+                {{ form_row(form.city) }}
+            </div>
+            <div >
+                {{ form_row(form.experience) }}
+            </div>
+            <div>
+                {{ form_row(form.technos) }}
+            </div>
+             <div>
+                {{ form_row(form.salary) }}
+            </div>
+            
+            
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Recherhcer        
+        </button>
+    {{ form_end(form) }}
+
+    <div class="row mt-3">
+						<div class="col-xl-6 col-xxl-12">
+							<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Résultats</h4>
+										
+									</div>
+									<div class="row card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent ">
+										{% for post in posts %}
+                                        <div class="col-xl-6">
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                        
+                                        {% else %}
+                                        <div class="mr-3">
+                                            <h6 class=" alert alert-danger">Pas d'offres trouvés</h6>
+                                        </div>
+                                        {% endfor %}
+                                        
+                                           
+                                       
+                                        
+									</div>
+							</div>
+							
+						</div>	
+    </div>                    
+    
+{% endblock %}
+

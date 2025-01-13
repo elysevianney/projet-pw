@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,9 +40,16 @@ class Company
     #[ORM\OneToOne(mappedBy: 'company', cascade: ['persist', 'remove'])]
     private ?CompanyCritere $companyCritere = null;
 
+    /**
+     * @var Collection<int, Dev>
+     */
+    #[ORM\ManyToMany(targetEntity: Dev::class, inversedBy: 'companies')]
+    private Collection $favoriteDevs;
+
     public function __construct()
     {
         $this->logo = "entreprise-logo.png";
+        $this->favoriteDevs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -150,6 +159,30 @@ class Company
         }
 
         $this->companyCritere = $companyCritere;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dev>
+     */
+    public function getFavoriteDevs(): Collection
+    {
+        return $this->favoriteDevs;
+    }
+
+    public function addFavoriteDev(Dev $favoriteDev): static
+    {
+        if (!$this->favoriteDevs->contains($favoriteDev)) {
+            $this->favoriteDevs->add($favoriteDev);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoriteDev(Dev $favoriteDev): static
+    {
+        $this->favoriteDevs->removeElement($favoriteDev);
 
         return $this;
     }

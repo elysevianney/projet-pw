@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
+use App\Entity\PostView;
+use App\Form\PostSearchType;
 use App\Repository\PostRepository;
+use App\Repository\PostViewRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,7 +44,7 @@ final class PostController extends AbstractController
             $entityManager->persist($post);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
         }
 
         return $this->render('post/new.html.twig', [
@@ -52,8 +55,34 @@ final class PostController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_post_show', methods: ['GET'])]
-    public function show(Post $post): Response
+    public function show(Post $post, EntityManagerInterface $entityManager, PostViewRepository $postViewRepository): Response
     {
+        $user = $this->getUser();
+        if ($user) {
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+    
+            // Vérifier si l'utilisateur a déjà vu ce post
+            $existingView = $postViewRepository->findOneBy([
+                'post' => $post,
+                'viewer' => $user,
+            ]);
+            //dd($existingView);
+    
+            if (!$existingView) {
+                // Ajouter une nouvelle vue
+                $postView = new PostView($post, $user);
+                $entityManager->persist($postView);
+    
+                // Incrémenter le compteur de vues uniques
+                $post->incrementUniqueViews();
+                $entityManager->persist($post);
+            }
+    
+            $entityManager->flush();
+        }
+        
         return $this->render('post/show.html.twig', [
             'post' => $post,
         ]);
@@ -68,7 +97,7 @@ final class PostController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]);
         }
 
         return $this->render('post/edit.html.twig', [
@@ -87,4 +116,34 @@ final class PostController extends AbstractController
 
         return $this->redirectToRoute('app_post_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/post/{id}/favorite', name: 'post_toggle_favorite', methods: ['POST'])]
+    public function toggleFavorite(Post $post, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        if ($user) {
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+        }
+        /** @var Dev $dev */
+        $dev = $user->getDev(); // Supposons que l'utilisateur connecté est un Dev
+
+        if ($dev->getFavoritePosts()->contains($post)) {
+            // Si le post est déjà dans les favoris, le retirer
+            $dev->removeFavoritePost($post);
+        } else {
+            // Ajouter le post aux favoris
+            $dev->addFavoritePost($post);
+        }
+
+        $entityManager->persist($dev);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_post_show', ['id' => $post->getId()]); // Redirige vers la liste des posts ou autre route
+    }
+
+    
+
+
 }

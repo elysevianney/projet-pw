@@ -17,7 +17,7 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
-    public function searchPosts(
+    public function searchPostsCritere(
         ?int $minimumSalary,
         ?int $maximumSalary,
         ?string $city,
@@ -68,6 +68,59 @@ class PostRepository extends ServiceEntityRepository
         //dd($qb->getQuery());
         return $qb->getQuery()->getResult();
     }
+
+    public function findAllOrderByViewCountDesc(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.countView', 'DESC') // Tri par viewCount
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLastThreePosts(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC') // Trier par date de création en décroissant
+            ->setMaxResults(3)              // Limiter à 3 résultats
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function searchPosts(array $criteria): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        if (!empty($criteria['name'])) {
+            $qb->andWhere('p.name LIKE :name')
+               ->setParameter('name', '%' . $criteria['name'] . '%');
+        }
+
+        if (!empty($criteria['city'])) {
+            $qb->andWhere('p.city = :city')
+               ->setParameter('city', $criteria['city']);
+        }
+
+        if (!empty($criteria['experience'])) {
+            $qb->andWhere('p.experience >= :experience')
+               ->setParameter('experience', $criteria['experience']);
+        }
+
+        if (!empty($criteria['salary'])) {
+            $qb->andWhere('p.salary >= :salary')
+               ->setParameter('salary', $criteria['salary']);
+        }
+
+        if (!empty($criteria['technos'])) {
+            $qb->join('p.technos', 't')
+               ->andWhere('t.id IN (:technos)')
+               ->setParameter('technos', $criteria['technos']);
+        }
+
+        return $qb->getQuery()->getResult();
+    }
+
+
+
 
     //    /**
     //     * @return Post[] Returns an array of Post objects

@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recherche de Développeurs{% endblock %}
+{% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig') }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig') }}  
+{% endif %}
+{% endblock menuProfil %}
+{% block body %}
+    <h1>Recherche de Développeurs</h1>
+
+    <form method="POST">
+        {{ form_start(form) }}
+        <div style="display: flex; gap: 20px;">
+            <div >
+                {{ form_row(form.experience) }}
+            </div>
+            <div >
+                {{ form_row(form.minimumSalay) }}
+            </div>
+            <div >
+                {{ form_row(form.city) }}
+            </div>
+            <div>
+                {{ form_row(form.technos) }}
+            </div>
+            
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+            Recherhcer        
+        </button>
+        {{ form_end(form) }}
+    </form>
+
+    <div class="row mt-3">
+							<div class="col-xl-6 col-xxl-12">
+							<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Résultats</h4>
+										
+									</div>
+									<div class="row card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent ">
+										{% for dev in devs %}
+                                        <div class="col-xl-3">
+                                        <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ dev.avatar) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ dev.lastname  }} {{ dev.firstname  }}</h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Note : {{ dev.rating }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        </div>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+
+{% endblock %}

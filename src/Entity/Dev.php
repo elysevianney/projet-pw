@@ -75,6 +75,21 @@ class Dev
     #[ORM\Column(nullable: true)]
     private ?int $totalRating = 0;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $countView = 0;
+
+    /**
+     * @var Collection<int, Post>
+     */
+    #[ORM\ManyToMany(targetEntity: Post::class, inversedBy: 'devsFav')]
+    private Collection $favoritePosts;
+
+    /**
+     * @var Collection<int, Company>
+     */
+    #[ORM\ManyToMany(targetEntity: Company::class, mappedBy: 'favoriteDevs')]
+    private Collection $companies;
+
     
 
     public function __construct()
@@ -86,6 +101,9 @@ class Dev
         $this->totalRating = 0;
 
         $this->avatar = "dev-profil.jpg";
+        $this->countView = 0;
+        $this->favoritePosts = new ArrayCollection();
+        $this->companies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -323,6 +341,69 @@ class Dev
     public function setTotalRating(?int $totalRating): static
     {
         $this->totalRating = $totalRating;
+
+        return $this;
+    }
+
+    public function getCountView(): ?int
+    {
+        return $this->countView;
+    }
+
+    public function setCountView(?int $countView): static
+    {
+        $this->countView = $countView;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getFavoritePosts(): Collection
+    {
+        return $this->favoritePosts;
+    }
+
+    public function addFavoritePost(Post $favoritePost): static
+    {
+        if (!$this->favoritePosts->contains($favoritePost)) {
+            $this->favoritePosts->add($favoritePost);
+        }
+
+        return $this;
+    }
+
+    public function removeFavoritePost(Post $favoritePost): static
+    {
+        $this->favoritePosts->removeElement($favoritePost);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Company>
+     */
+    public function getCompanies(): Collection
+    {
+        return $this->companies;
+    }
+
+    public function addCompany(Company $company): static
+    {
+        if (!$this->companies->contains($company)) {
+            $this->companies->add($company);
+            $company->addFavoriteDev($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCompany(Company $company): static
+    {
+        if ($this->companies->removeElement($company)) {
+            $company->removeFavoriteDev($this);
+        }
 
         return $this;
     }

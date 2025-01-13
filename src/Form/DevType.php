@@ -78,7 +78,7 @@ class DevType extends AbstractType
                     'class' => 'mb-1'
                 ],
                 'attr' => [
-                    'class' => 'form-control   ',
+                    'class' => 'form-control ',
                 ]
             ])
             ->add('experience', IntegerType::class, [

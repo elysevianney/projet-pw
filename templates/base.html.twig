@@ -56,8 +56,8 @@
         ***********************************-->
         <div class="nav-header">
             <a href="{{ path('app_welcome') }}" class="brand-logo">
-             <img class="logo-abbr" src="{{asset('asset/images/logo-full.png')}}" alt="">
-			<!-- <div class="brand-title">Jobify</div>  -->
+             <img class="logo-abbr" src="{{asset('asset/images/logo2.png')}}" alt="">
+			<div class="brand-title text-primary ">Jobify</div> 
 				
             </a>
             <div class="nav-control">
@@ -78,19 +78,22 @@
                 <nav class="navbar navbar-expand">
                     <div class="collapse navbar-collapse justify-content-between">
                         <div class="header-left">
-							<div class="input-group search-area d-xl-inline-flex d-none">
-								<button class="input-group-text"><i class="flaticon-381-search-2 text-primary"></i></button>
-								<input type="text" class="form-control" placeholder="Search here...">
-							</div>
+                                <a href="{{ path('app_post_search')}}" >
+									<button class="input-group-text mx-2"><i class="flaticon-381-search-2 text-primary mx-2"></i> Rechercher des postes </button>	
+                                </a>
+                                <a href="{{ path('app_dev_search')}}" >
+								    <button class="input-group-text mx-2"><i class="flaticon-381-search-2 text-primary mx-2"></i> Rechercher des développeurs</button>
+                                </a>
                         </div>
+                    
                         <ul class="navbar-nav header-right">
+                            {% if(app.user)%}
                             {% block menuProfil %} {% endblock %}
-                            
-                            <!--	
+                            {% else %}
                             <li class="nav-item dropdown header-profile">
                                 <a class="nav-link" href="javascript:void(0);" role="button" data-bs-toggle="dropdown">
 									
-                                    <img  src="{{asset('asset/images/profile/pic1.jpg')}}" width="20" alt=""/>
+                                    <img  src="{{asset('uploads/avatars/dev-profil.jpg')}}" width="20" alt=""/>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <a href="{{ path('app_register')}}" class="dropdown-item ai-icon">
@@ -100,7 +103,8 @@
                                         <span class="ms-2">Se connecter </span>
                                     </a>
                                 </div>
-                            </li>-->
+                            </li>
+                            {% endif %}
                         </ul>
                     </div>
 				</nav>
@@ -142,7 +146,7 @@
 			
         </div>
         
-    </body>
+
             <!--**********************************
             Footer start
         ***********************************-->

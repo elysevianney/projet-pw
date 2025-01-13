@@ -10,13 +10,14 @@
                     <a href="{{ path('app_dev_show', {id: app.user.dev.id})}}" class="dropdown-item ai-icon">
                     <span class="ms-2">Mon profile</span>
                 </a>
+                <a href="{{ path('app_dev_favoris', {id: app.user.dev.id})}}" class="dropdown-item ai-icon">
+                    <span class="ms-2">Mes offres favoris </span>
+                </a>
                  {% endif %}
                 <a href="{{path('app_dev_critere_index2')}}" class="dropdown-item ai-icon">
                     <span class="ms-2">Matching </span>
                 </a>
-                <a href="#" class="dropdown-item ai-icon">
-                    <span class="ms-2">Mes offres favoris </span>
-                </a>
+                
                 <a href="{{ path('app_logout')}}" class="dropdown-item ai-icon">
                     <span class="ms-2">Se deconnecter </span>
                 </a>

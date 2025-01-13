@@ -3,9 +3,9 @@
 {% block title %}Dev  suggérés{% endblock %}
 {% block menuProfil %}
 {% if(app.user and is_granted('ROLE_DEV'))  %}
-    {{ include('menu_dev.html.twig', {'dev' : dev}) }}                                                                  
+    {{ include('menu_dev.html.twig') }}                                                                  
 {% elseif (app.user and is_granted('ROLE_COMPANY')) %}
-    {{ include('menu_company.html.twig', {'company' : company}) }}  
+    {{ include('menu_company.html.twig') }}  
 {% endif %}
 {% endblock menuProfil %}
 {% block body %} 

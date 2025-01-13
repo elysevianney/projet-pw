@@ -124,4 +124,18 @@ final class CompanyController extends AbstractController
         }
         return $this->redirectToRoute('app_company_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/favorites', name: 'app_company_favorites', methods: ['GET'])]
+    public function favoriteDevs(): Response
+        {
+            $user = $this->getUser();
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+            $company = $user->getCompany();
+
+            return $this->render('dev/index2.html.twig', [
+                'devs' => $company->getFavoriteDevs(),
+            ]);
+        }
 }

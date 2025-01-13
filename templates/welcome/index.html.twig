@@ -1,205 +1,48 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'base.html.twig' %}
 
-<!-- Mirrored from ventic.dexignzone.com/xhtml/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 May 2021 03:52:22 GMT -->
-<head>
-
-    <meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Ventic : Ticketing Admin Template" />
-	<meta property="og:title" content="Ventic : Ticketing Admin Template" />
-	<meta property="og:description" content="Ventic : Ticketing Admin Template" />
-	<meta property="og:image" content=""/>
-	<meta name="format-detection" content="telephone=no">
-	
-	<!-- PAGE TITLE HERE -->
-	<title>Ventic : Ticketing Admin Template</title>
-	
-	<!-- FAVICONS ICON -->
-
-	<link rel="shortcut icon" type="image/png" href="{{ asset('asset/images/favicon3.png') }}" />
-	
-	<link rel="stylesheet" href="{{asset('asset/vendor/chartist/css/chartist.min.css')}}">
-	<link href="{{asset('asset/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet">
-	<link href="{{asset('asset/vendor/jquery-nice-select/css/nice-select.css')}}" rel="stylesheet">
-	<!-- Style css -->
-    <link href="{{asset('asset/css/style.css')}}" rel="stylesheet">
-	
-</head>
-<body>
-
-    <!--*******************
-        Preloader start
-    ********************-->
-    <div id="preloader">
-        <div class="loader">
-            <div class="loader--dot"></div>
-            <div class="loader--dot"></div>
-            <div class="loader--dot"></div>
-            <div class="loader--dot"></div>
-            <div class="loader--dot"></div>
-            <div class="loader--dot"></div>
-            <div class="loader--text"></div>
-        </div>
-    </div>
-    <!--*******************
-        Preloader end
-    ********************-->
-
-    <!--**********************************
-        Main wrapper start
-    ***********************************-->
-    <div id="main-wrapper">
-
-        <!--**********************************
-            Nav header start
-        ***********************************-->
-        <div class="nav-header">
-            <a href="{{ path('app_welcome') }}" class="brand-logo">
-             <img class="logo-abbr" src="{{asset('asset/images/logo-full.png')}}" alt="">
-			<!-- <div class="brand-title">Jobify</div>  -->
-				
-            </a>
-            <div class="nav-control">
-                <div class="hamburger">
-                    <span class="line"></span><span class="line"></span><span class="line"></span>
-                </div>
-            </div>
-        </div>
-        <!--**********************************
-            Nav header end
-        ***********************************-->
-		
-		<!--**********************************
-            Header start
-        ***********************************-->
-        <div class="header">
-            <div class="header-content">
-                <nav class="navbar navbar-expand">
-                    <div class="collapse navbar-collapse justify-content-between">
-                        <div class="header-left">
-							<div class="input-group search-area d-xl-inline-flex d-none">
-								<button class="input-group-text"><i class="flaticon-381-search-2 text-primary"></i></button>
-								<input type="text" class="form-control" placeholder="Search here...">
-							</div>
-                        </div>
-                        <ul class="navbar-nav header-right">	
-                            {% if app.user %}
-                                {% if(is_granted('ROLE_DEV'))  %}
-                                    {{ include('menu_dev.html.twig') }}                                                                  
-                                {% elseif (is_granted('ROLE_COMPANY')) %}
-                                    {{ include('menu_company.html.twig') }}  
-                                {% endif %}
-                            {% else %}
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <a href="{{ path('app_register')}}" class="dropdown-item ai-icon">
-                                        <span class="ms-2">S'inscrire </span>
-                                    </a>
-                                    <a href="{{ path('app_login')}}" class="dropdown-item ai-icon">
-                                        <span class="ms-2">Se connecter </span>
-                                    </a>
-                                </div>
-                            {% endif %}
-                        </ul>
-                    </div>
-				</nav>
-			</div>
-		</div>
-        <!--**********************************
-            Header end ti-comment-alt
-        ***********************************-->
-
-        <!--**********************************
-            Sidebar start
-        ***********************************-->
-        <div class="deznav">
-            <div class="deznav-scroll">
-				<ul class="metismenu" id="menu">
-					
-                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-							<i class="flaticon-073-question"></i>
-							<span class="nav-text">FAQ</span>
-						</a>
-                    </li>
-                    <li><a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-							<i class="flaticon-050-info"></i>
-							<span class="nav-text">A propos</span>
-						</a>
-                    </li>
-                </ul>
-			</div>
-        </div>
-        <!--**********************************
-            Sidebar end
-        ***********************************-->
-		
-		<!--**********************************
-            Content body start
-        ***********************************-->
-        <div class="content-body">
-            <!-- row -->
-			<div class="container-fluid">
+{% block title %}Jobify{% endblock %}
+    {% block menuProfil %}
+{% if(app.user and is_granted('ROLE_DEV'))  %}
+    {{ include('menu_dev.html.twig') }}                                                                  
+{% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+    {{ include('menu_company.html.twig') }}  
+{% endif %}
+{% endblock menuProfil %}
+{% block body %}
                 <div class="row mb-3">
                     <img src="{{ asset('asset/images/card/pic6.jpg')}}" class="img-fluid" alt="">
                 </div>
 				<div class="row">
-					<div class="col-xl-9 col-xxl-8">
+                    {% if(app.user and is_granted('ROLE_DEV'))  %}
+                        <div class="col-xl-6 col-xxl-6">
 						<div class="row">
 							<div class="col-xl-6 col-xxl-12">
 								<div class="card latest-sales-bx">
 									<div class="card-header border-0 mb-0">
-										<h4 class="fs-20">Dernières ofres</h4>
+										<h4 class="fs-20">Offres populaires</h4>
 										
 									</div>
 									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
-										<div class="media pb-3 border-bottom mb-3 align-items-center">
-											<div class="media-image me-2">
-												<img src="{{ asset('asset/images/logo.png')}}" alt="">
-											</div>
-											<div class="media-body">
-												<h6 class="fs-16 mb-0">Développeur backend JAVA</h6>
-												<div class="d-flex">
-													<span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>Entreprise 1 | CDI</span>
-													<span class="fs-14 text-nowrap">il y 2semaines</span>
-												</div>
-											</div>
-										</div>
-                                        <div class="media pb-3 border-bottom mb-3 align-items-center">
-											<div class="media-image me-2">
-												<img src="{{ asset('asset/images/logo.png')}}" alt="">
-											</div>
-											<div class="media-body">
-												<h6 class="fs-16 mb-0">Développeur backend JAVA</h6>
-												<div class="d-flex">
-													<span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>Entreprise 1 | CDI</span>
-													<span class="fs-14 text-nowrap">il y 2semaines</span>
-												</div>
-											</div>
-										</div>
-                                        <div class="media pb-3 border-bottom mb-3 align-items-center">
-											<div class="media-image me-2">
-												<img src="{{ asset('asset/images/logo.png')}}" alt="">
-											</div>
-											<div class="media-body">
-												<h6 class="fs-16 mb-0">Développeur backend JAVA</h6>
-												<div class="d-flex">
-													<span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>Entreprise 1 | CDI</span>
-													<span class="fs-14 text-nowrap">il y 2semaines</span>
-												</div>
-											</div>
-										</div>
-                                        <div class="media pb-3 border-bottom mb-3 align-items-center">
-											<div class="media-image me-2">
-												<img src="{{ asset('asset/images/logo.png')}}" alt="">
-											</div>
-											<div class="media-body">
-												<h6 class="fs-16 mb-0">Développeur backend JAVA</h6>
-												<div class="d-flex">
-													<span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>Entreprise 1 | CDI</span>
-													<span class="fs-14 text-nowrap">il y 2semaines</span>
-												</div>
-											</div>
-										</div>
+										{% for post in bestPosts %}
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        {% endfor %}
 									</div>
 									
 								</div>
@@ -207,69 +50,275 @@
 							
 						</div>	
 					</div>
+
+                    <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20"> Nouvelles publication de Poste</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for post in lastThreePosts  %}
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas de postes trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>                                                               
+                    {% elseif (app.user and is_granted('ROLE_COMPANY')) %}
+                        <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Développeurs les plus consultés</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for dev in bestDevs %}
+                                        <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ dev.avatar) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ dev.lastname  }} {{ dev.firstname  }}</h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Note : {{ dev.rating }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+
+                    <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20"> Nouveaux développeurs</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for dev in lastThreeDevs %}
+                                        <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ dev.avatar) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ dev.lastname  }} {{ dev.firstname  }}</h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Note : {{ dev.rating }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas de développeurs trouvés trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div> 
+                </div>     
+                    {% else %}
+
+                <div class="row mb-3">
+                    <h1 class="text-primary text-center">Trouvez facilement votre futur emploi!</h1>
+                </div>
+                <div class="row">
+                    
+                        <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Offres populaires</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for post in bestPosts %}
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+
+                    <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20"> Nouvelles publication de Poste</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for post in lastThreePosts  %}
+                                        <a href="{{ path('app_post_show', {'id': post.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas de développeurs trouvés trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>                                                               
+                    
+                        <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20">Développeurs les plus consultés</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for dev in bestDevs %}
+                                        <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ dev.avatar) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ dev.lastname  }} {{ dev.firstname  }}</h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Note : {{ dev.rating }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>
+
+                    <div class="col-xl-6 col-xxl-6">
+						<div class="row">
+							<div class="col-xl-6 col-xxl-12">
+								<div class="card latest-sales-bx">
+									<div class="card-header border-0 mb-0">
+										<h4 class="fs-20"> Nouveaux développeurs</h4>
+										
+									</div>
+									<div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+										{% for dev in lastThreeDevs %}
+                                        <a href="{{ path('app_dev_show', {'id': dev.id}) }}">
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ dev.avatar) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ dev.lastname  }} {{ dev.firstname  }}</h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Note : {{ dev.rating }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ dev.experience }} ans d'expérience</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {% else %}
+                                            <h6 class="m-3 alert alert-danger">Pas de développeurs trouvés trouvés</h6>
+                                        {% endfor %}
+									</div>
+									
+								</div>
+							</div>
+							
+						</div>	
+					</div>  
+
+                    {% endif %}
 					
-				</div>
-            </div>
-			
-        </div>
-        <!--**********************************
-            Content body end
-        ***********************************-->
-		
-		
-		
-        <!--**********************************
-            Footer start
-        ***********************************-->
-        <div class="footer">
-		
-            <div class="copyright">
-                <p>Copyright © Designed &amp; Developed by <a href="https://dexignzone.com/" target="_blank">DexignZone</a> 2021</p>
-            </div>
-        </div>
-        <!--**********************************
-            Footer end
-        ***********************************-->
-
-		<!--**********************************
-           Support ticket button start
-        ***********************************-->
-		
-        <!--**********************************
-           Support ticket button end
-        ***********************************-->
-
-
-	</div>
-    <!--**********************************
-        Main wrapper end
-    ***********************************-->
-
-    <!--**********************************
-        Scripts
-    ***********************************-->
-    <!-- Required vendors -->
-    
-    <script src="{{asset('asset/vendor/global/global.min.js')}}"></script>
-	<script src="{{asset('asset/vendor/chart.js/Chart.bundle.min.js')}}"></script>
-	<script src="{{asset('asset/vendor/bootstrap-datetimepicker/js/moment.js')}}"></script>
-	<script src="{{asset('asset/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js')}}"></script>
-	<script src="{{asset('asset/vendor/jquery-nice-select/js/jquery.nice-select.min.js')}}"></script>
-	
-	<!-- Chart piety plugin files -->
-    <script src="{{asset('asset/vendor/peity/jquery.peity.min.js')}}"></script>
-	
-	<!-- Apex Chart -->
-	<script src="{{asset('asset/vendor/apexchart/apexchart.js')}}"></script>
-	
-	<!-- Dashboard 1 -->
-	<script src="{{asset('asset/js/dashboard/dashboard-1.js')}}"></script>
-    {{asset('asset/')}}
-    <script src="{{asset('asset/js/custom.min.js')}}"></script>
-	<script src="{{asset('asset/js/deznav-init.js')}}"></script>
-	<script src="{{asset('asset/js/demo.js')}}"></script>
-    <script src="{{asset('asset/js/styleSwitcher.js')}}"></script>
-</body>
-
-<!-- Mirrored from ventic.dexignzone.com/xhtml/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 12 May 2021 03:52:24 GMT -->
-</html>
+				</div>	
+{% endblock body %}
+            

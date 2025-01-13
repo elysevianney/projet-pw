@@ -45,7 +45,7 @@ final class DevCritereController extends AbstractController
         if (!$critere instanceof DevCritere) {
             throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
         }
-        $posts = $postRepository->searchPosts(
+        $posts = $postRepository->searchPostsCritere(
             $critere->getMinimumSalary(),
             $critere->getMaximumSalary(),
             $critere->getCity(),
