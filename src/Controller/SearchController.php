@@ -26,6 +26,9 @@ class SearchController extends AbstractController
                 'experience' => $form->get('experience')->getData(),
                 'city' => $form->get('city')->getData(),
                 'technos' => $form->get('technos')->getData(),
+                
+                'lastname' => $form->get('lastname')->getData(),
+                'firstname' => $form->get('firstname')->getData(),
             ];
             $devs = $devRepository->findByFilters($filters);
         }
@@ -44,6 +47,7 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
 
         $posts = [];
+        $allPosts =  $postRepository->findOneBy([], orderBy: ['id' => 'DESC']);
         
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -57,10 +61,11 @@ class SearchController extends AbstractController
             
             $posts = $postRepository->searchPosts($criteria);
         }
-
+        //dd($posts);
         return $this->render('post/search.html.twig', [
             'form' => $form->createView(),
             'posts' => $posts,
+            'allPots' => $allPosts
         ]);
     }
 }

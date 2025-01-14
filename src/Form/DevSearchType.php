@@ -22,6 +22,28 @@ class DevSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('lastname', TextType::class, [
+                'label' => 'Nom',
+                'required' => false,
+                'label_attr' => [
+                    'class' => 'mb-1'
+                ],
+                'attr' => [
+                    'class' => 'form-control ',
+                ]
+                
+            ])
+            ->add('firstname', TextType::class, [
+                'required' => false,
+                'label' => 'Prénom',
+                'label_attr' => [
+                    'class' => 'mb-1'
+                ],
+                'attr' => [
+                    'class' => 'form-control  ',
+                ]
+                
+            ])
             ->add('experience', IntegerType::class, [
                 'required' => false,
                 'label' => 'Nombre d\'année d\'expérience',

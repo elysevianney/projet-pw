@@ -38,7 +38,15 @@
                                                 <button class="btn btn-primary">
                                                     Modifier profile
                                                 </button>
-                                            </a>                            
+                                            </a>  
+                                            <div class="px-3">
+                                                <a  href="{{path('app_company_posts', {id: app.user.company.id})}}">
+                                                <button class="btn btn-light">
+                                                    Afficher mes fiches de postes
+                                                </button>
+                                                </a>
+										    </div>
+                                                                      
                                         {% endif %}   
                                         <div>
                                         </div>

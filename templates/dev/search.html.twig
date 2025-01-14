@@ -15,18 +15,27 @@
         {{ form_start(form) }}
         <div style="display: flex; gap: 20px;">
             <div >
+                {{ form_row(form.lastname) }}
+            </div>
+            <div >
+                {{ form_row(form.firstname) }}
+            </div>
+            <div >
                 {{ form_row(form.experience) }}
             </div>
             <div >
                 {{ form_row(form.minimumSalay) }}
             </div>
+        </div>
+            
+        
+        <div style="display: flex; gap: 20px;">
             <div >
                 {{ form_row(form.city) }}
             </div>
             <div>
                 {{ form_row(form.technos) }}
             </div>
-            
         </div>
 
         <button type="submit" class="btn btn-primary">

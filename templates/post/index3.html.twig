@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Dev  suggérés{% endblock %}
+{% block title %}offres favorites{% endblock %}
 {% block menuProfil %}
 {% if(app.user and is_granted('ROLE_DEV'))  %}
     {{ include('menu_dev.html.twig') }}                                                                  
@@ -15,7 +15,7 @@
 							<div class="col-xl-6 col-xxl-12">
 								<div class="card">
 									<div class="card-header border-0 mb-0">
-										<h4 class="fs-20">Voici vos offres favoris</h4>
+										<h4 class="fs-20">Voici vos offres favorites</h4>
 										
 									</div>
                                     <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
@@ -35,10 +35,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </a>
+                                    </a>
+                                        
+                                    {% else %}    
 
-									{% else %}
-                                        <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
+                                        <h6 class="m-3 alert alert-danger">Pas d'offres trouvées</h6>
                                     {% endfor %}
                                     </div>
 								</div>

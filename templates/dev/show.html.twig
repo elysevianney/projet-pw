@@ -37,7 +37,7 @@
                                                     Modifier profile
                                                 </button>
                                             </a>                            
-                                        {% else %}  
+                                        {% elseif app.user.company %}  
                                         <form action="{{ path('dev_toggle_favorite', {id: dev.id}) }}" method="POST">
                                             {% if dev in app.user.company.favoriteDevs %}
                                                 <button class="btn btn-danger" type="submit">Retirer des Favoris</button>

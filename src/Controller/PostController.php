@@ -58,6 +58,7 @@ final class PostController extends AbstractController
     public function show(Post $post, EntityManagerInterface $entityManager, PostViewRepository $postViewRepository): Response
     {
         $user = $this->getUser();
+
         if ($user) {
             if (!$user instanceof User) {
                 throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
@@ -70,7 +71,7 @@ final class PostController extends AbstractController
             ]);
             //dd($existingView);
     
-            if (!$existingView) {
+            if (!$existingView and $user != $post->getUser()) {
                 // Ajouter une nouvelle vue
                 $postView = new PostView($post, $user);
                 $entityManager->persist($postView);

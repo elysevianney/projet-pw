@@ -112,9 +112,11 @@ class PostRepository extends ServiceEntityRepository
 
         if (!empty($criteria['technos'])) {
             $qb->join('p.technos', 't')
-               ->andWhere('t.id IN (:technos)')
+               ->orWhere('t.id IN (:technos)')
                ->setParameter('technos', $criteria['technos']);
         }
+
+        //dd( $qb->getQuery());
 
         return $qb->getQuery()->getResult();
     }

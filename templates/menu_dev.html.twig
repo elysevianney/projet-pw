@@ -8,7 +8,7 @@
             <div class="dropdown-menu dropdown-menu-end">
                 {% if is_granted('ROLE_DEV') %}
                     <a href="{{ path('app_dev_show', {id: app.user.dev.id})}}" class="dropdown-item ai-icon">
-                    <span class="ms-2">Mon profile</span>
+                    <span class="ms-2">Mon profil</span>
                 </a>
                 <a href="{{ path('app_dev_favoris', {id: app.user.dev.id})}}" class="dropdown-item ai-icon">
                     <span class="ms-2">Mes offres favoris </span>

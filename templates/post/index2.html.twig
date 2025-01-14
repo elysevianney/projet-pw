@@ -18,26 +18,30 @@
 										<h4 class="fs-20">Voici les offres correspondants à vos critères</h4>
 										
 									</div>
+                                    <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
+
                                     {% for post in posts %}
+
                                     <a href="{{ path('app_post_show', {'id': post.id}) }}">
-                                        <div class="card-body pb-0 dz-scroll loadmore-content pt-0" id="LatestSalesContent">
-                                            <div class="media pb-3 border-bottom mb-3 align-items-center">
-                                                <div class="media-image me-2">
-                                                    <img src="{{ asset('uploads/avatars/' ~ company.logo) }}" alt="">
-                                                </div>
-                                                <div class="media-body">
-                                                    <h6 class="fs-16 mb-0">{{ post.name }}</h6>
-                                                    <div class="d-flex">
-                                                        <span class="fs-14 me-auto text-secondary"><i class="fa fa-ticket me-1"></i>{{ post.city }}</span>
-                                                        <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requis</span>
+                                            <div class=" pb-0 dz-scroll loadmore-content pt-0" >
+                                                <div class="media pb-3 border-bottom mb-3 align-items-center">
+                                                    <div class="media-image me-2">
+                                                        <img src="{{ asset('uploads/avatars/' ~ post.user.company.logo) }}" alt="">
+                                                    </div>
+                                                    <div class="media-body">
+                                                        <h6 class="fs-16 mb-0">{{ post.name  }} </h6>
+                                                        <div class="d-flex">
+                                                            <span class="fs-14 me-auto text-primary">Ville : {{ post.city }}</span>
+                                                            <span class="fs-14 text-nowrap">{{ post.experience }} ans d'expérience requises</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </a>
+                                        </a>
 									{% else %}
                                         <h6 class="m-3 alert alert-danger">Pas d'offres trouvés</h6>
                                     {% endfor %}
+                                    </div>
 								</div>
 							</div>
 							

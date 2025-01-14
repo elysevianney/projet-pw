@@ -111,13 +111,22 @@ class DevRepository extends ServiceEntityRepository
             $qb->andWhere('d.city LIKE :city')
                ->setParameter('city', '%' . $filters['city'] . '%');
         }
+        if (!empty($filters['firstname'])) {
+            $qb->andWhere('d.firstname LIKE :firstname')
+               ->setParameter('firstname', '%' . $filters['firstname'] . '%');
+        }
+        if (!empty($filters['lastname'])) {
+            $qb->andWhere('d.lastname LIKE :lastname')
+               ->setParameter('lastname', '%' . $filters['lastname'] . '%');
+        }
 
         if (!empty($filters['technos'])) {
             $qb->join('d.technos', 't')
-               ->andWhere('t.id IN (:technos)')
+               ->orWhere('t.id IN (:technos)')
                ->setParameter('technos', $filters['technos']);
         }
 
+//dd( $qb->getQuery());
         return $qb->getQuery()->getResult();
     }
 

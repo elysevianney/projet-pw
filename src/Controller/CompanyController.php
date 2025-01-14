@@ -137,5 +137,20 @@ final class CompanyController extends AbstractController
             return $this->render('dev/index2.html.twig', [
                 'devs' => $company->getFavoriteDevs(),
             ]);
-        }
+    }
+
+    #[Route('/{id}/posts', name: 'app_company_posts', methods: ['GET'])]
+    public function companyPosts( PostRepository $postRepository): Response
+        {
+            $user = $this->getUser();
+            if (!$user instanceof User) {
+                throw new \LogicException('L\'utilisateur connecté n\'est pas de type User.');
+            }
+
+            return $this->render('post/index4.html.twig', [
+                'posts' => $postRepository->findBy(['user' => $user]),
+            ]);
+    }
+    
+    
 }
